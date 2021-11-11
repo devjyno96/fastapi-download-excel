@@ -11,16 +11,22 @@ auth = (os.getenv('OPENSEARCH_USER'), os.getenv('OPENSEARCH_PASSWORD'))
 index_name = 'opensearch-test'
 
 
-def get_search_result(company_name, start_time, server_ip):
+def get_search_result(company_name, start_time, end_time, server_ip):
     query = {
         "size": 10000,
+        "sort": {
+            "Time": {
+                "order": "asc"
+            }
+        },
         "query": {
             "bool": {
                 "must": [
                     {
                         "range": {
                             "Time": {
-                                "gte": start_time
+                                "gte": start_time,
+                                "lt": end_time
                             }
                         }
                     },
